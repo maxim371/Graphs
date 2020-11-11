@@ -8,6 +8,22 @@ from ast import literal_eval
 # Load world
 world = World()
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
@@ -28,6 +44,42 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+
+Prevroom = [None]
+Directory = {'n': 's': 'e': 'w': 's': 'e', 'w', 'n'}
+visit = {}
+room = {}
+print(room_graph[5][3])
+
+
+def Options(roomID):
+    choices = []
+    if 'n' in room_graph[roomID][1].keys():
+        choices.append('n')
+    if 's' in room_graph[roomID][1].keys():
+        choices.append('s)
+    if 'e' in room_graph[roomID][1].keys():
+        choices.appned('e')
+    if 'w' in room_graph[roomID][1].keys():
+        choices.append('w')
+    return choices
+while len(visit) < len(room_graph):
+    roomID = player.current_room.id
+    if roomID not in room:
+        visit[roomID] = roomID
+        room[roomID] = Options(roomID)
+
+    if len(room[roomID]) < 1:
+        oldroom = trackoldroom.pop()
+        traversal_path.append(oldroom)
+        player.travel(oldroom)
+
+    else:
+        newdirection = room[roomID].pop(0)
+        traversal_path.append(newdirection)
+        trackoldroom.append(dirOposite[newdirection])
+        player.travel(newdirection)
+    
 
 
 
